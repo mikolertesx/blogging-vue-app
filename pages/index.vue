@@ -13,7 +13,12 @@ export default {
   components: {
     PostList,
   },
-  data() {
+  async asyncData() {
+    await new Promise((resolve) =>
+      setTimeout(() => {
+        resolve();
+      }, 150)
+    );
     return {
       loadedPosts: [
         {
@@ -31,6 +36,11 @@ export default {
             "https://i.pinimg.com/236x/59/83/f5/5983f54e3917e773dbd2a6c414ada035.jpg",
         },
       ],
+    };
+  },
+  data() {
+    return {
+      loadedPosts: [],
     };
   },
 };
