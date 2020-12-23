@@ -34,6 +34,9 @@ export default {
       ],
     };
   },
+  created() {
+    this.$store.dispatch("setPosts", this.loadedPosts);
+  },
 };
 </script>
 
