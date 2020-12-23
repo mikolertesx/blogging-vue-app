@@ -13,35 +13,10 @@ export default {
   components: {
     PostList,
   },
-  async asyncData() {
-    await new Promise((resolve) =>
-      setTimeout(() => {
-        resolve();
-      }, 150)
-    );
-    return {
-      loadedPosts: [
-        {
-          id: "1",
-          title: "First Post",
-          previewText: "This is our first post!",
-          thumbnail:
-            "https://i.pinimg.com/originals/fc/15/a4/fc15a49a4534abd7ad07973550af3226.png",
-        },
-        {
-          id: "2",
-          title: "Second Post",
-          previewText: "This is our second post!",
-          thumbnail:
-            "https://i.pinimg.com/236x/59/83/f5/5983f54e3917e773dbd2a6c414ada035.jpg",
-        },
-      ],
-    };
-  },
-  data() {
-    return {
-      loadedPosts: [],
-    };
+  computed: {
+    loadedPosts() {
+      return this.$store.getters.loadedPosts;
+    },
   },
 };
 </script>
