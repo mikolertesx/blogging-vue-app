@@ -1,3 +1,5 @@
+import axios from "axios";
+
 export const state = () => ({
   loadedPosts: []
 });
@@ -9,29 +11,21 @@ export const mutations = {
 };
 
 export const actions = {
-  nuxtServerInit(vuexContext) {
-    return new Promise(resolve =>
-      setTimeout(() => {
-        vuexContext.commit("setPosts", [
-          {
-            id: "1",
-            title: "First Post",
-            previewText: "This is our first post!",
-            thumbnail:
-              "https://i.pinimg.com/originals/fc/15/a4/fc15a49a4534abd7ad07973550af3226.png"
-          },
-          {
-            id: "2",
-            title: "Second Post",
-            previewText: "This is our second post!",
-            thumbnail:
-              "https://i.pinimg.com/236x/59/83/f5/5983f54e3917e773dbd2a6c414ada035.jpg"
-          }
-        ]);
-
-        resolve();
-      }, 5000)
-    );
+  nuxtServerInit(vuexContext, context) {
+    console.log("Running server");
+    return axios
+      .get("https://free-reality.firebaseio.com/posts.json")
+      .then(res => {
+        const postsArray = [];
+        for (const key in res.data) {
+          postsArray.push({ ...res.data[key], id: key });
+        }
+        vuexContext.commit("setPosts", postsArray);
+      })
+      .catch(e => {
+        console.log(e);
+        context.error(e);
+      });
   },
 
   setPosts(vuexContext, posts) {
