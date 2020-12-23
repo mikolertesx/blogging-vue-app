@@ -12,18 +12,20 @@ export const mutations = {
 
 export const actions = {
   nuxtServerInit(vuexContext, context) {
-    console.log("Running server");
     return axios
       .get("https://free-reality.firebaseio.com/posts.json")
       .then(res => {
         const postsArray = [];
         for (const key in res.data) {
-          postsArray.push({ ...res.data[key], id: key });
+          postsArray.push({
+            ...res.data[key],
+            id: key,
+            thumbnail: res.data[key].thumbnailLink || res.data[key].thumbnail
+          });
         }
         vuexContext.commit("setPosts", postsArray);
       })
       .catch(e => {
-        console.log(e);
         context.error(e);
       });
   },

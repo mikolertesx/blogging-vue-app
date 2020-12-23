@@ -1,27 +1,42 @@
 <template>
   <div class="admin-post-page">
     <section class="update-form">
-      <AdminPostForm :post="loadedPost" />
+      <AdminPostForm :post="loadedPost" @submit="onSubmitted" />
     </section>
   </div>
 </template>
 <script>
 import AdminPostForm from "@/components/Admin/AdminPostForm";
+import axios from "axios";
 export default {
-  layout: 'admin',
+  layout: "admin",
   components: {
     AdminPostForm,
   },
-  data() {
-    return {
-      loadedPost: {
-        author: "Maximilian",
-        title: "My awesome post",
-        content: "Super amazing, thanks for that!",
-        thumbnailLink:
-          "https://steamuserimages-a.akamaihd.net/ugc/913550211586682151/383DE3EAB05DAEA383A8D818965E8E2F8B33E658/?imw=1024&imh=631&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=true",
-      },
-    };
+  asyncData(context) {
+    return axios
+      .get(
+        `https://free-reality.firebaseio.com/posts/${context.params.postid}.json`
+      )
+      .then((res) => {
+        return {
+          loadedPost: res.data,
+        };
+      })
+      .catch((e) => context.error(e));
+  },
+  methods: {
+    onSubmitted(editedPost) {
+      axios
+        .put(
+          `https://free-reality.firebaseio.com/posts/${this.$route.params.postid}.json`,
+          editedPost
+        )
+        .then((result) => {
+          this.$router.push("/admin");
+        })
+        .catch((e) => console.error(e));
+    },
   },
 };
 </script>

@@ -16,11 +16,14 @@ export default {
   },
   methods: {
     onSubmitted(postData) {
-      console.log(process.env);
-
       axios
-        .post(`https://free-reality.firebaseio.com/posts.json`, postData)
-        .then((result) => console.log(result))
+        .post(`https://free-reality.firebaseio.com/posts.json`, {
+          ...postData,
+          updatedDate: new Date(),
+        })
+        .then((result) => {
+          this.$router.push('/admin');
+        })
         .catch((error) => console.error(error));
     },
   },

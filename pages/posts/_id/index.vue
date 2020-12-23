@@ -20,27 +20,20 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   async asyncData(context) {
-    await new Promise((resolve, reject) =>
-      setTimeout(() => {
-        resolve();
-      }, 1000)
-    ).catch((e) => {
-      context.error(new Error("Couldn't load"));
-    });
-    return {
-      loadedPost: {
-        id: "1",
-        title: `First Post (ID: ${context.params.id})`,
-        previewText: "This is our first post!",
-        author: "Mike",
-        updatedDate: new Date(),
-        content: "Some dummy text",
-        thumbnail:
-          "https://i.pinimg.com/originals/fc/15/a4/fc15a49a4534abd7ad07973550af3226.png",
-      },
-    };
+    return axios
+      .get(
+        `https://free-reality.firebaseio.com/posts/${context.params.id}.json`
+      )
+      .then((res) => {
+        return {
+          loadedPost: res.data,
+        };
+      })
+      .catch((e) => context.error(e));
   },
 };
 </script>
