@@ -33,5 +33,8 @@ export default {
   components: true,
   buildModules: [],
   modules: [],
-  build: {}
+  build: {},
+  env: {
+    baseUrl: process.env.SERVER
+  }
 };

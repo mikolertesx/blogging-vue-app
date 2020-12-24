@@ -25,7 +25,7 @@ export const mutations = {
 export const actions = {
   nuxtServerInit(vuexContext, context) {
     return axios
-      .get("https://free-reality.firebaseio.com/posts.json")
+      .get(`${process.env.SERVER}/posts.json`)
       .then(res => {
         const postsArray = [];
         for (const key in res.data) {
@@ -47,7 +47,7 @@ export const actions = {
       updatedDate: new Date()
     };
     return axios
-      .post(`https://free-reality.firebaseio.com/posts.json`, createdPost)
+      .post(`${process.env.SERVER}/posts.json`, createdPost)
       .then(result => {
         vuexContext.commit("addPost", { ...createdPost, id: result.data.name });
       })
@@ -55,10 +55,7 @@ export const actions = {
   },
   editPost(vuexContext, editedPost) {
     return axios
-      .put(
-        `https://free-reality.firebaseio.com/posts/${editedPost.id}.json`,
-        editedPost
-      )
+      .put(`${process.env.SERVER}/${editedPost.id}.json`, editedPost)
       .then(result => {
         vuexContext.commit("editPost", editedPost);
       })

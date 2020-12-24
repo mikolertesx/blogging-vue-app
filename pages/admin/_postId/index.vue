@@ -15,9 +15,7 @@ export default {
   },
   asyncData(context) {
     return axios
-      .get(
-        `https://free-reality.firebaseio.com/posts/${context.params.postid}.json`
-      )
+      .get(`${process.env.baseUrl}/posts/${context.params.postid}.json`)
       .then((res) => {
         return {
           loadedPost: { ...res.data, id: context.params.postid },
