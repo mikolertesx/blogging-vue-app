@@ -32,7 +32,7 @@ export default {
   plugins: ["~plugins/core-components.js", "~plugins/date-filter.js"],
   components: true,
   buildModules: [],
-  modules: [],
+  modules: ["@nuxtjs/axios"],
   build: {},
   env: {
     baseUrl: process.env.SERVER
