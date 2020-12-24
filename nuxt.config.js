@@ -29,7 +29,7 @@ export default {
     color: "#fa923f"
   },
   css: ["~assets/styles/main.css"],
-  plugins: ["~plugins/core-components.js"],
+  plugins: ["~plugins/core-components.js", "~plugins/date-filter.js"],
   components: true,
   buildModules: [],
   modules: [],
