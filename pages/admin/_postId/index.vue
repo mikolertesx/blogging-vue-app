@@ -20,22 +20,16 @@ export default {
       )
       .then((res) => {
         return {
-          loadedPost: res.data,
+          loadedPost: { ...res.data, id: context.params.postid },
         };
       })
       .catch((e) => context.error(e));
   },
   methods: {
     onSubmitted(editedPost) {
-      axios
-        .put(
-          `https://free-reality.firebaseio.com/posts/${this.$route.params.postid}.json`,
-          editedPost
-        )
-        .then((result) => {
-          this.$router.push("/admin");
-        })
-        .catch((e) => console.error(e));
+      this.$store.dispatch("editPost", editedPost).then(() => {
+        this.$router.push("/admin");
+      });
     },
   },
 };

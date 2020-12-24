@@ -16,15 +16,9 @@ export default {
   },
   methods: {
     onSubmitted(postData) {
-      axios
-        .post(`https://free-reality.firebaseio.com/posts.json`, {
-          ...postData,
-          updatedDate: new Date(),
-        })
-        .then((result) => {
-          this.$router.push('/admin');
-        })
-        .catch((error) => console.error(error));
+      this.$store.dispatch("addPost", postData).then(() => {
+        this.$router.push("/admin");
+      });
     },
   },
 };

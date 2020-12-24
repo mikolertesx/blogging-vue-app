@@ -7,6 +7,18 @@ export const state = () => ({
 export const mutations = {
   setPosts(state, posts) {
     state.loadedPosts = posts;
+  },
+  addPost(state, post) {
+    state.loadedPosts.push(post);
+  },
+  editPost(state, editedPost) {
+    const postIndex = state.loadedPosts.findIndex(
+      post => post.id === editedPost.id
+    );
+    if (postIndex < 0) {
+      return;
+    }
+    state.loadedPosts[postIndex] = editedPost;
   }
 };
 
@@ -29,7 +41,29 @@ export const actions = {
         context.error(e);
       });
   },
-
+  addPost(vuexContext, post) {
+    const createdPost = {
+      ...post,
+      updatedDate: new Date()
+    };
+    return axios
+      .post(`https://free-reality.firebaseio.com/posts.json`, createdPost)
+      .then(result => {
+        vuexContext.commit("addPost", { ...createdPost, id: result.data.name });
+      })
+      .catch(error => console.error(error));
+  },
+  editPost(vuexContext, editedPost) {
+    return axios
+      .put(
+        `https://free-reality.firebaseio.com/posts/${editedPost.id}.json`,
+        editedPost
+      )
+      .then(result => {
+        vuexContext.commit("editPost", editedPost);
+      })
+      .catch(e => console.error(e));
+  },
   setPosts(vuexContext, posts) {
     vuexContext.commit("setPosts", posts);
   }
