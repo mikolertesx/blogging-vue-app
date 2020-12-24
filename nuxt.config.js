@@ -28,7 +28,7 @@ export default {
     name: "circle",
     color: "#fa923f"
   },
-  css: [],
+  css: ["~assets/styles/main.css"],
   plugins: [],
   components: true,
   buildModules: [],
@@ -36,5 +36,9 @@ export default {
   build: {},
   env: {
     baseUrl: process.env.SERVER
+  },
+  pageTransition: {
+    name: "fade",
+    mode: "out-in"
   }
 };
