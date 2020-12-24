@@ -14,11 +14,9 @@
 
 <script>
 import PostList from "@/components/Posts/PostList";
-import AppButton from "@/components/UI/AppButton";
 export default {
   layout: "admin",
   components: {
-    AppButton,
     PostList,
   },
   computed: {
