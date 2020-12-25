@@ -34,19 +34,20 @@ export default {
   },
   methods: {
     onSubmit() {
+      let authUrl = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.key}`;
+      if (!this.isLogin) {
+        authUrl = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${process.env.key}`;
+      }
       this.$axios
-        .$post(
-          `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${process.env.key}`,
-          {
-            email: this.email,
-            password: this.password,
-            returnSecureToken: true,
-          }
-        )
+        .post(authUrl, {
+          email: this.email,
+          password: this.password,
+          returnSecureToken: true,
+        })
         .then((result) => {
           console.log(result);
         })
-        .catch((e) => console.log(e));
+        .catch((error) => console.log(error));
     },
   },
 };
