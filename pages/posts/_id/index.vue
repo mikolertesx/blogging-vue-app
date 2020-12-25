@@ -24,11 +24,11 @@ import axios from "axios";
 
 export default {
   async asyncData(context) {
-    return axios
-      .get(`${process.env.baseUrl}/posts/${context.params.id}.json`)
-      .then((res) => {
+    return context.app.$axios
+      .$get(`${process.env.baseUrl}/posts/${context.params.id}.json`)
+      .then((data) => {
         return {
-          loadedPost: res.data,
+          loadedPost: data,
         };
       })
       .catch((e) => context.error(e));
