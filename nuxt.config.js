@@ -1,3 +1,5 @@
+const bodyParser = require("body-parser");
+
 export default {
   head: {
     title: "Mikolertesx's Blog",
@@ -36,7 +38,7 @@ export default {
   build: {},
   env: {
     baseUrl: process.env.SERVER,
-    key: process.env.KEY,
+    key: process.env.KEY
   },
   pageTransition: {
     name: "fade",
@@ -44,5 +46,6 @@ export default {
   },
   axios: {
     credentials: false
-  }
+  },
+  serverMiddleware: [bodyParser.json(), "~/api"]
 };
