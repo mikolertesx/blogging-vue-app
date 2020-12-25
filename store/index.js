@@ -48,8 +48,14 @@ export const actions = {
       ...post,
       updatedDate: new Date()
     };
+
+    console.log(vuexContext.state);
+
     return this.$axios
-      .$post(`${process.env.baseUrl}/posts.json`, createdPost)
+      .$post(
+        `${process.env.baseUrl}/posts.json?auth=${vuexContext.state.token}`,
+        createdPost
+      )
       .then(data => {
         vuexContext.commit("addPost", { ...createdPost, id: data.name });
       })
@@ -57,7 +63,10 @@ export const actions = {
   },
   editPost(vuexContext, editedPost) {
     return this.$axios
-      .$put(`${process.env.baseUrl}/${editedPost.id}.json`, editedPost)
+      .$put(
+        `${process.env.baseUrl}/${editedPost.id}.json?auth=${vuexContext.state.token}`,
+        editedPost
+      )
       .then(result => {
         vuexContext.commit("editPost", editedPost);
       })
@@ -72,12 +81,13 @@ export const actions = {
       authUrl = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${process.env.key}`;
     }
     return this.$axios
-      .post(authUrl, {
+      .$post(authUrl, {
         email: authData.email,
         password: authData.password,
         returnSecureToken: true
       })
       .then(result => {
+        console.log(result);
         vuexContext.commit("setToken", result.idToken);
       })
       .catch(error => console.log(error));
