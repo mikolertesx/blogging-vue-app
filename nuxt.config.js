@@ -35,7 +35,8 @@ export default {
   modules: ["@nuxtjs/axios"],
   build: {},
   env: {
-    baseUrl: process.env.SERVER
+    baseUrl: process.env.SERVER,
+    key: process.env.KEY,
   },
   pageTransition: {
     name: "fade",
